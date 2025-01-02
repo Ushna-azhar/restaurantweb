@@ -1,4 +1,3 @@
-// app/api/products/[id]/route.ts
 import { NextResponse } from 'next/server';
 
 // Sample mock product data
@@ -11,7 +10,6 @@ const products = [
   { id: 6, name: 'Chicken Pulao', price: 9.99, image: '/p6.jpg', description: 'Delicious Pulao' },
   { id: 7, name: 'Desi Kheer Special', price: 19.99, image: '/p7.jpg', description: 'Kheer' },
   { id: 8, name: 'Desi Zarda Special', price: 4.99, image: '/p8.jpg', description: 'Overloaded Zarda' },
-  // New products added below:
   { id: 9, name: 'Qorma', price: 15.99, image: '/qorma.jpg', description: 'Rich and flavorful Qorma' },
   { id: 10, name: 'Naan', price: 3.99, image: '/naan.jpg', description: 'Soft and fluffy Naan' },
   { id: 11, name: 'Kulcha', price: 4.99, image: '/kul.jpg', description: 'Delicious and warm Kulcha' },
@@ -23,8 +21,13 @@ const products = [
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   const { id } = params;
+  const productId = parseInt(id, 10); // Ensure parsing to integer with base 10
 
-  const product = products.find((p) => p.id === parseInt(id));
+  if (isNaN(productId)) {
+    return NextResponse.json({ message: `Invalid product id: ${id}` }, { status: 400 });
+  }
+
+  const product = products.find((p) => p.id === productId);
   
   if (!product) {
     return NextResponse.json({ message: `Product with id: ${id} not found` }, { status: 404 });
