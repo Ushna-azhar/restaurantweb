@@ -1,8 +1,15 @@
 
 import { NextResponse } from 'next/server';
 
-// Sample mock product data
-const products = [
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+};
+
+const products: Product[] = [
   { id: 1, name: 'Nihari', price: 10.99, image: '/p1.jpeg', description: 'Delicious Nihari' },
   { id: 2, name: 'Biryani', price: 8.99, image: '/p2.jpg', description: 'Delicious Biryani' },
   { id: 3, name: 'Qorma', price: 12.99, image: '/p3.webp', description: 'Badami Qorma' },
