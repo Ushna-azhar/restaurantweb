@@ -1,15 +1,8 @@
 
 import { NextResponse } from 'next/server';
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-};
-
-const products: Product[] = [
+// Sample mock product data
+const products = [
   { id: 1, name: 'Nihari', price: 10.99, image: '/p1.jpeg', description: 'Delicious Nihari' },
   { id: 2, name: 'Biryani', price: 8.99, image: '/p2.jpg', description: 'Delicious Biryani' },
   { id: 3, name: 'Qorma', price: 12.99, image: '/p3.webp', description: 'Badami Qorma' },
@@ -27,8 +20,8 @@ const products: Product[] = [
   { id: 15, name: 'Water', price: 0.99, image: '/water.webp', description: 'Pure and fresh Water' },
 ];
 
-export async function GET(request: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
   const productId = parseInt(id, 10); // Ensure parsing to integer with base 10
 
   if (isNaN(productId)) {
