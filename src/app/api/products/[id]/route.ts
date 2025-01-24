@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 
 // Sample mock product data
@@ -20,8 +19,8 @@ const products = [
   { id: 15, name: 'Water', price: 0.99, image: '/water.webp', description: 'Pure and fresh Water' },
 ];
 
-export async function GET(request: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
   const productId = parseInt(id, 10); // Ensure parsing to integer with base 10
 
   if (isNaN(productId)) {
@@ -36,3 +35,4 @@ export async function GET(request: Request, context: { params: { id: string } })
 
   return NextResponse.json(product);
 }
+
