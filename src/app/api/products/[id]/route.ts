@@ -21,17 +21,21 @@ const products = [
 
 export async function GET(request: Request, context: { params: { id: string } }) {
   const { id } = context.params;
-  const productId = parseInt(id, 10);
+  const productId = parseInt(id, 10);  // Parsing the id into an integer
 
+  // Check if the id is valid
   if (isNaN(productId)) {
     return NextResponse.json({ message: `Invalid product id: ${id}` }, { status: 400 });
   }
 
+  // Find the product from the mock data
   const product = products.find((p) => p.id === productId);
 
+  // If product not found
   if (!product) {
     return NextResponse.json({ message: `Product with id: ${id} not found` }, { status: 404 });
   }
 
+  // Return the product data if found
   return NextResponse.json(product);
 }
