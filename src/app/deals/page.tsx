@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 interface Product {
@@ -30,7 +30,22 @@ const products: Product[] = [
 ];
 
 const DealsPage = () => {
-  const [cart, setCart] = useState<Product[]>([]); // Use Product[] for cart state
+  const [cart, setCart] = useState<Product[]>([]);
+
+  useEffect(() => {
+    // Load cart from localStorage if available
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save cart to localStorage whenever it changes
+    if (cart.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -45,6 +60,10 @@ const DealsPage = () => {
         return [...prevCart, { ...product, quantity: 1 }];
       }
     });
+  };
+
+  const removeFromCart = (id: number) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
   const calculateTotal = () => {
@@ -65,7 +84,7 @@ const DealsPage = () => {
         </span>
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
         {products.map((product) => (
           <div
             key={product.id}
@@ -108,6 +127,12 @@ const DealsPage = () => {
                 </div>
                 <div className="flex items-center">
                   <span className="text-gray-800 dark:text-gray-100">Qty: {item.quantity}</span>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className="ml-4 text-red-500 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
@@ -117,7 +142,7 @@ const DealsPage = () => {
               Total: ${calculateTotal()}
             </p>
             <button
-              onClick={() => alert('Proceeding to checkout...')}
+              onClick={() => window.location.href = '/checkout'}
               className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition"
             >
               Checkout
