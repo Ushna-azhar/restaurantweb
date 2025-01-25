@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Deals from '/deals';  // Update with correct path if necessary
-import ProductDetail from './components/ProductDetail';  // Update with correct path if necessary
+import ProductDetail from './ProductDetail';
+import ProductList from './ProductList'; // Example for main product listing
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Deals />} /> {/* Main page */}
-        <Route path="/product/:id" element={<ProductDetail />} /> {/* Product details page */}
+        <Route path="/" element={<ProductList />} /> {/* Main page */}
+        <Route path="/product/:id" element={<ProductDetail />} /> {/* Dynamic route */}
       </Routes>
     </Router>
   );
