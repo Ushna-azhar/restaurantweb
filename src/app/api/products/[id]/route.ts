@@ -20,16 +20,16 @@ const products = [
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   const { id } = params;
-  const productId = parseInt(id, 10); // Parsing the id into an integer
+  const productId = parseInt(id, 10); // Parse the id into an integer
 
   if (isNaN(productId)) {
-    return NextResponse.json({ message: `Invalid product id: ${id}` }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid product id provided.' }, { status: 400 });
   }
 
   const product = products.find((p) => p.id === productId);
 
   if (!product) {
-    return NextResponse.json({ message: `Product with id: ${id} not found` }, { status: 404 });
+    return NextResponse.json({ error: `No product found with id: ${id}` }, { status: 404 });
   }
 
   return NextResponse.json(product);
