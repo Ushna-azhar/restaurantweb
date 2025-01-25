@@ -36,7 +36,17 @@ const DealsPage = () => {
     // Load cart from localStorage if available
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
-      setCart(JSON.parse(savedCart));
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        if (Array.isArray(parsedCart)) {
+          setCart(parsedCart);
+        } else {
+          localStorage.removeItem('cart'); // Clear invalid cart data
+        }
+      } catch (error) {
+        console.error('Error parsing cart from localStorage:', error);
+        localStorage.removeItem('cart'); // Clear invalid cart data
+      }
     }
   }, []);
 
@@ -72,7 +82,6 @@ const DealsPage = () => {
       const quantity = item.quantity || 0;
       return total + price * quantity;
     }, 0);
-
     return total.toFixed(2);
   };
 
