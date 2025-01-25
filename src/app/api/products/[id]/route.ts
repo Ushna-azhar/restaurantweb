@@ -19,9 +19,9 @@ const products = [
   { id: 15, name: 'Water', price: 0.99, image: '/water.webp', description: 'Pure and fresh Water' },
 ];
 
-export async function GET(request: Request, context: { params: { id: string } }) {
-  const { id } = context.params;
-  const productId = parseInt(id, 10);  // Parsing the id into an integer
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const { id } = params;
+  const productId = parseInt(id, 10); // Parsing the id into an integer
 
   // Check if the id is valid
   if (isNaN(productId)) {
