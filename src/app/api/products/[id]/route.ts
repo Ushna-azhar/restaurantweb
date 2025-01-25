@@ -18,18 +18,17 @@ const products = [
   { id: 15, name: 'Water', price: 0.99, image: '/water.webp', description: 'Pure and fresh Water' },
 ];
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
-  const productId = parseInt(id, 10); // Parse the id into an integer
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+  const productId = parseInt(params.id, 10); // Parse the product id
 
   if (isNaN(productId)) {
-    return NextResponse.json({ error: 'Invalid product id provided.' }, { status: 400 });
+    return NextResponse.json({ message: 'Invalid product ID' }, { status: 400 });
   }
 
   const product = products.find((p) => p.id === productId);
 
   if (!product) {
-    return NextResponse.json({ error: `No product found with id: ${id}` }, { status: 404 });
+    return NextResponse.json({ message: `Product not found` }, { status: 404 });
   }
 
   return NextResponse.json(product);
