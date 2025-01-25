@@ -21,16 +21,21 @@ const products = [
 export async function GET(req: Request, { params }: { params: { id: string } }) {
   const productId = parseInt(params.id, 10); // Parse the product id
 
+  // Check if the productId is a valid number
   if (isNaN(productId)) {
     return NextResponse.json({ message: 'Invalid product ID' }, { status: 400 });
   }
 
+  // Find the product by id
   const product = products.find((p) => p.id === productId);
 
+  // If product not found, return 404
   if (!product) {
-    return NextResponse.json({ message: `Product not found` }, { status: 404 });
+    return NextResponse.json({ message: `Product with ID ${productId} not found` }, { status: 404 });
   }
 
+  // Return the found product
   return NextResponse.json(product);
 }
+
 
